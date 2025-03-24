@@ -1,0 +1,83 @@
+#include<iostream>
+using namespace std;
+struct TreeNode{
+    string name;
+	TreeNode*left;
+	TreeNode*right;
+    TreeNode(string n){
+   	name=n;
+   	left=NULL;
+   	right=NULL;
+   }
+};
+
+
+void addChild(TreeNode*parent,string childName){
+	if(!parent->left){
+		parent->left=new TreeNode(childName);
+	}else if(!parent->left->right){
+		parent->left->right= new TreeNode(childName);
+	}else{
+		addChild(parent->left,childName);
+	}
+}
+
+void printTree(TreeNode*root,int level=0){
+	if (!root) return ;
+	
+	
+	for(int i=0;i<level;i++){   
+		cout<<" ";
+	}
+	cout<<root->name<<endl;
+	
+	printTree(root->left,level+1);
+	printTree(root->right,level);
+}
+
+
+int main(){
+	int ch;
+	TreeNode*book=new TreeNode("Book");
+	string Chaptername,Section,Subsection;
+	while (true){
+	
+	cout<<"1.Add Chapter:\n";
+	cout<<"2.Add Section:\n";
+	cout<<"3.Add Subsection:\n";
+	cout<<"4.Print \n";
+	cout<<"5.Exit:\n";
+	cout<<"Enter choice:\n";
+    cin>>ch;
+    cin.ignore();
+    switch (ch){
+	
+    case 1:
+    	cout<<"Enter Chapter name:\n";
+    	getline(cin,Chaptername);
+    	addChild(book,Chaptername);
+    	break;
+    	
+    case 2:
+    	cout<<"Enter Section name:\n";
+    	getline(cin,Section);
+    	addChild(book->left,Section);
+    	break;
+    case 3:
+    	cout<<"Enter Subsection name:\n";
+    	getline(cin,Subsection);
+    	addChild(book->left->left,Subsection);
+    	break;
+    case 4:
+    	printTree(book);
+    	break;
+    case 5:
+    	return 0;
+    	break;
+    	
+	default:
+		cout<<"Invalid input....";
+    }
+	}
+	return 0;	
+}
